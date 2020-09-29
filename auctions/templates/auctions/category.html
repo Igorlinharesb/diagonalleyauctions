@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 class="titles">Active {{ category.category.capitalize }} Listings</h2>
+    <div id="container">
+        {% for product in products  %}
+                <a href="{% url 'product' product.id %}">
+                    <div class="item">
+                        <div class="image">
+                            <img class="index_image" src="{{ product.image_url }}" alt="{{ product.title }}">
+                        </div>
+                        <div>
+                            <p><bold>{{ product.title }}: U$ {{ product.current_bid }}</bold></p>
+                        </div>
+                    </div>
+                </a>
+        {% empty %}
+            <h2>It looks like there's no active listing currently, try again later!!!</h2>
+        {% endfor %}
+    </div>
+
+
+    <h2 class="titles">Closed {{ category.capitalize }} Listings </h2>
+    <div id="container">
+        {% for product in products_off  %}
+                <a href="{% url 'product' product.id %}">
+                    <div class="item">
+                        <div class="image">
+                            <img class="index_image" src="{{ product.image_url }}" alt="{{ product.title }}">
+                        </div>
+                        <div>
+                            <p><bold>{{ product.title }}: U$ {{ product.current_bid }}</bold></p>
+                        </div>
+                    </div>
+                </a>
+        {% empty %}
+            <h2>It looks like there's no closed in this category listing currently, try again later!!!</h2>
+        {% endfor %}
+    </div>
+
+{% endblock %}

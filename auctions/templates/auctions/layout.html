@@ -1,0 +1,280 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Auctions{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="../static/auctions/styles.css" rel="stylesheet">
+    <style>
+        footer {
+            margin-top: 30px;
+        }
+
+        body {
+            background-color: lightgray;
+        }
+
+        .welcome{
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            margin-top: 20vh;
+            margin-bottom: 20vh;
+            color: white;
+            font-size: 50px;
+            text-align: center;
+        }
+
+        .welcome_panel{
+            background-image: url("https://live.staticflickr.com/1739/42515487572_1588df3066_b.jpg");
+        }
+
+        .navbar-text{
+            color: white !important;
+        }
+
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .item {
+            font-size: 15px;
+            vertical-align: center;
+            text-align: center;
+            margin: 20px;
+            width: 220px;
+            height: 220px;
+            color: white;
+            background-color: gray;
+            border-radius: 25px;
+        }
+
+        .item:hover{
+            transform: scale(1.2);
+        }
+
+        .navbar{
+            margin-bottom: 15px;
+        }
+
+        .image {
+            height: 160px;
+            background-color: white;
+            color: black;
+        }
+
+        .index_image {
+            width: 200px;
+            height: 160px;
+        }
+
+        .bcg-img{
+            height: 50vh;
+        }
+
+        .product-img{
+            height: 40vh;
+        }
+
+        .description{
+            justify-content: center;
+        }
+
+        .titles{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .btn{
+            margin: 5px;
+        }
+
+        .comment {
+            border: darkgray solid;
+            margin: 2px;
+        }
+
+        .site-footer
+        {
+            background-color:#26272b;
+            padding:45px 0 20px;
+            font-size:15px;
+            line-height:24px;
+            color:#737373;
+        }
+        .site-footer hr
+        {
+            border-top-color:#bbb;
+            opacity:0.5
+        }
+        .site-footer hr.small
+        {
+            margin:20px 0
+        }
+        .site-footer h6
+        {
+            color:#fff;
+            font-size:16px;
+            text-transform:uppercase;
+            margin-top:5px;
+            letter-spacing:2px
+        }
+        .site-footer a
+        {
+            color:#737373;
+        }
+        .site-footer a:hover
+        {
+            color:#3366cc;
+            text-decoration:none;
+        }
+        .footer-links
+        {
+            padding-left:0;
+            list-style:none
+        }
+        .footer-links li
+        {
+            display:block
+        }
+        .footer-links a
+        {
+            color:#737373
+        }
+        .footer-links a:active,.footer-links a:focus,.footer-links a:hover
+        {
+            color:#3366cc;
+            text-decoration:none;
+        }
+        .footer-links.inline li
+        {
+            display:inline-block
+        }
+        .site-footer .social-icons
+        {
+            text-align:right
+        }
+        .site-footer .social-icons a
+        {
+            width:40px;
+            height:40px;
+            line-height:40px;
+            margin-left:6px;
+            margin-right:0;
+            border-radius:100%;
+            background-color:#33353d
+        }
+        .copyright-text
+        {
+            margin:0
+        }
+        @media (max-width:991px)
+        {
+            .site-footer [class^=col-]
+            {
+                margin-bottom:30px
+            }
+        }
+        @media (max-width:767px)
+        {
+            .site-footer
+            {
+                padding-bottom:0
+            }
+            .site-footer .copyright-text,.site-footer .social-icons
+            {
+                text-align:center
+            }
+        }
+    </style>
+</head>
+<body onload="typeWriter()">
+
+<div class="welcome_panel row">
+    <div class="col-1"></div>
+    <div class="col">
+        <h1 class="welcome col" id="demo"></h1>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark row">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Listings</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'watchlist' %}">Watch List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_listings' %}">My Listings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'createlisting' %}">Create Listing</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <span class="navbar-text">
+                    Signed in as <strong>{{ user.username.capitalize }}</strong>
+                </span>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+            {% else %}
+                <span class="navbar-text">
+                    Not signed in.
+                </span>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{% block body %}
+
+{% endblock %}
+
+<footer class="row site-footer col-12">
+    <div class=" row container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-12">
+                <p class="copyright-text">Copyright &copy; 2020 All Rights Reserved by
+                    <a href="https://github.com/Igorlinharesb">
+                        <strong>Igor Linhares.</strong>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    var i = 0;
+    var txt = 'Diagon Alley Auctions'; /* The text */
+    var speed = 100; /* The speed/duration of the effect in milliseconds */
+
+    function typeWriter() {
+        if (i < txt.length) {
+            document.getElementById("demo").innerHTML += txt.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+</script>
+</body>
+</html>

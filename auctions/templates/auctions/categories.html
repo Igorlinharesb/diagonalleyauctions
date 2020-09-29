@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 class="titles">CATEGORIES</h2>
+    <div id="container">
+        {% for category in categories  %}
+                <a href="{% url 'category' category.id %}">
+                    <div class="item">
+                        <div class="image">
+                            <img class="index_image" src="{{ category.category_img }}" alt="{{ category.category }}">
+                        </div>
+                        <div>
+                            <p><bold>{{ category.category.capitalize }}</bold></p>
+                        </div>
+                    </div>
+                </a>
+        {% empty %}
+            <h2>It looks like there's no active listing in this category currently, try again later!!!</h2>
+        {% endfor %}
+    </div>
+
+{% endblock %}
